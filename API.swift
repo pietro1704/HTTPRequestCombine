@@ -18,9 +18,9 @@ class API{
         
         cancellable = URLSession.shared
             .dataTaskPublisher(for: request) //Publisher<(Data, URLResponse), Error)>
-            //.map(\.data)//Publisher<Data>
+            .map(\.data)//Publisher<Data>
             //.decode(type: Main.self, decoder: JSONDecoder())
-            //.receive(on: DispatchQueue.main)
+            .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
             .sink(receiveCompletion: {completionError in
                 switch completionError{
@@ -29,9 +29,11 @@ class API{
                 case .finished:
                     break
                 }
-            })
+            },receiveValue:
             {(joke) in
-                print(joke)
+                guard let data = String(data: joke, encoding: .utf8) else {return}
+                print(data)
             }
+        )
     }
 }
