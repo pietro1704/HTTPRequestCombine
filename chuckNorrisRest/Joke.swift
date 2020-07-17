@@ -11,6 +11,7 @@ import Foundation
 struct Main:Decodable {
 	let value:Joke
 }
+//teste
 
 struct Joke:Decodable {
 	var id:Int?
